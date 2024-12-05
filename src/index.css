@@ -1,0 +1,21 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400 !important;
+  box-sizing: border-box;
+  /* Prevent scrolling */
+}
+
+code {
+  font-family: 'Manrope', sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit; /* Inherit box-sizing from html */
+}
