@@ -7,7 +7,7 @@ import 'reactjs-popup/dist/index.css';
 
 
 
-const DetailsPopup = ({ open, closeModal,detailProduct,brokenImageProduct,setProducts,showEditImagePopUp ,showDetailsPopUp}) => {
+const DetailsPopup = ({ open, closeModal,detailProduct,brokenImageProduct,setProducts,showEditImagePopUp ,showDetailsPopUp, isNightMode}) => {
   const formatToPDT = (dateString, pastFitCount) => {
     if (pastFitCount === 0) {
       return 'Never';
@@ -53,7 +53,7 @@ const DetailsPopup = ({ open, closeModal,detailProduct,brokenImageProduct,setPro
     <Popup open={open} modal nested>
       <Overlay onClick={closeModal} />
       {showDetailsPopUp ? ( // Check if detailProduct exists
-        <ModalContainer>
+        <ModalContainer isNightMode={isNightMode}>
           <CloseButton onClick={closeModal}>&times;</CloseButton>
           <ModalHeader>{detailProduct.name}</ModalHeader>
           <ProductImage src={detailProduct.url} alt={detailProduct.name} />
@@ -89,7 +89,7 @@ const DetailsPopup = ({ open, closeModal,detailProduct,brokenImageProduct,setPro
           </ProductDetails>
         </ModalContainer>
       ) : showEditImagePopUp ? ( // If detailProduct doesn't exist, check for brokenImageProduct
-        <ModalContainer>
+        <ModalContainer isNightMode={isNightMode}>
           <h3>Edit Image Link</h3>
           <InputField
             type="text"
@@ -117,7 +117,7 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: white;
+  background-color: ${({ isNightMode }) => (isNightMode ? "#121212" : "#fff")};
   border-radius: 10px;
   padding: 4.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);

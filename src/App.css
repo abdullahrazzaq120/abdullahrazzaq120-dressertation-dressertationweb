@@ -1,0 +1,38 @@
+/* App.css */
+
+:root {
+    --background-color: #ffffff;
+    --text-color: #121212;
+    --toggle-background: #ccc;
+    /* --button-background: #ADD8E6;
+    --button-text: #121212; */
+  }
+  
+  .dark-mode {
+    --background-color: #3C3C40;
+    --text-color: #ffffff;
+    --toggle-background: #4CAF50;
+    /* --button-background: #ADD8E6;
+    --button-text: #121212; */
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  .button {
+    background-color: #ADD8E6;
+    color: #121212;    
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .button:hover {
+    opacity: 0.8;
+  }

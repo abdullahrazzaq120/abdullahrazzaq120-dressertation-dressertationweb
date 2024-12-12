@@ -3,10 +3,22 @@ import { Container, Row, Col } from "styled-bootstrap-grid";
 import styled from "styled-components";
 import FiltersComponent from "./FilterCloset";
 import ClipLoader from "react-spinners/ClipLoader";
+import { ThemeProvider } from "styled-components";
 
 const DressertationCloset = () => {
   const [closetData, setClosetData] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [isNightMode, setIsNightMode] = useState(false);
+
+  const toggleNightMode = () => {
+    setIsNightMode(!isNightMode);
+    if (!isNightMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  };
   
   let [color, setColor] = useState("#ffffff");
 
@@ -45,6 +57,7 @@ const DressertationCloset = () => {
     borderColor: "red",
   };
   return (
+    <ThemeProvider theme={{ mode: isNightMode ? "dark" : "light" }}>
     <CustoamContainer >
       <Row>
         <Col lg={4}>
@@ -52,22 +65,34 @@ const DressertationCloset = () => {
           <MainText>Pick an Outfit</MainText>
           <Spacer />
         </Col>
-        <Col lg={4}>
+        <Col lg={2}>
         <Spacer/>
         </Col>
         <Col lg={2}>
         <Spacer />
+        
           <ToggleWrapper>
-            <ToggleLabel>Auto Reload</ToggleLabel>
-            <ToggleContainer isActive={isActive} onClick={handleToggle}>
-              <ToggleCircle isActive={isActive} />
+            <ToggleLabel isNightMode={isNightMode}>{'Dark Mode'}</ToggleLabel>
+            <ToggleContainer v isActive={isNightMode} onClick={toggleNightMode}>
+              <ToggleCircle isActive={isNightMode} />
             </ToggleContainer>
           </ToggleWrapper>
+
           <Spacer />
         </Col>
         <Col lg={2}>
         <Spacer />
-          <Button onClick={handleReload}>Reload Latest Closet</Button>
+        <ToggleWrapper>
+            <ToggleLabel isNightMode={isNightMode}>Auto Reload</ToggleLabel>
+            <ToggleContainer isActive={isActive} onClick={handleToggle}>
+              <ToggleCircle isActive={isActive} />
+            </ToggleContainer>
+          </ToggleWrapper>
+        
+        </Col>
+        <Col lg={2}>
+        <Spacer />
+          <Button className="button" onClick={handleReload}>Reload Latest Closet</Button>
           <Spacer />
         </Col>
 
@@ -82,7 +107,7 @@ const DressertationCloset = () => {
               data-testid="loader"
             />
           ) : closetData ? (
-            <FiltersComponent />
+            <FiltersComponent isNightMode={isNightMode}/>
           ) : (
             <SubMain>
               <Heading>No Closet Available</Heading>
@@ -92,12 +117,18 @@ const DressertationCloset = () => {
         </Col>
       </Row>
     </CustoamContainer>
+    </ThemeProvider>
   );
 };
-const CustoamContainer=styled(Container)`
-padding-left: 0;
-padding-right: 0;
-`
+
+const CustoamContainer = styled(Container)`
+  padding-left: 0;
+  padding-right: 0;
+  background-color: ${({ theme }) => theme.backgroundColor};
+  color: ${({ theme }) => theme.textColor};
+  transition: background-color 0.3s, color 0.3s;
+`;
+
 // Styled components
 const MainText = styled.div`
   font-size: 28px;
@@ -105,14 +136,7 @@ const MainText = styled.div`
 `;
 
 const Button = styled.div`
-  background-color: #add8e6;
-  border-radius: 10px;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  
 `;
 
 const Heading = styled.div`
@@ -147,7 +171,7 @@ const ToggleWrapper = styled.div`
 const ToggleLabel = styled.span`
   margin-right: 10px;
   font-size: 16px;
-  color: #333;
+  color: ${({ isNightMode }) => (isNightMode ? "#ffffff" : "#121212")};
 `;
 
 const ToggleContainer = styled.div`
@@ -171,4 +195,5 @@ const ToggleCircle = styled.div`
   left: ${({ isActive }) => (isActive ? "32px" : "2px")};
   transition: left 0.3s;
 `;
+
 export default DressertationCloset;

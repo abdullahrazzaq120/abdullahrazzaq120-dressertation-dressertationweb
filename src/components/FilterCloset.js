@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container, Row, Col } from "styled-bootstrap-grid";
-import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { TiArrowSortedDown } from "react-icons/ti";
-import { GrCheckboxSelected } from "react-icons/gr";
 import { FaCircleCheck } from "react-icons/fa6";
 import DetailsPopup from "../Popup/DetailsPopup";
-import { FaSearch } from "react-icons/fa";
-import { CgDetailsMore } from "react-icons/cg";
-import { LiaEyeSolid } from "react-icons/lia";
 import { LiaSearchSolid } from "react-icons/lia";
-import Rating from "./Rating";
 import { CiEdit } from "react-icons/ci";
 import OldSuggestedOutfits from "../Popup/OldSuggestedOutfits";
+import { ThemeProvider } from "styled-components";
 
-const ClosetApp = () => {
+const ClosetApp = ({ isNightMode }) => {
   const [open, setOpen] = useState(false);
   const [openOldSuggestedPopup, setOpenOldSuggestedPopup] = useState(false);
   //const closeModal = () => setOpen(false);
@@ -298,7 +293,7 @@ const ClosetApp = () => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper isNightMode={isNightMode}>
         {/* Filter Section */}
         <Container fluid>
           <Row>
@@ -316,7 +311,7 @@ const ClosetApp = () => {
               ) : (
                 <p>No filters applied. Total items: {products.length}</p>
               )}
-              <FilterContainer>
+              <FilterContainer isNightMode={isNightMode}>
                 <FilterOptions>
                   <FilterIconDiv>
                     <CheckboxLabel>Filters</CheckboxLabel>
@@ -462,7 +457,7 @@ const ClosetApp = () => {
                     </OldSuggestedButton>
                   </FilterSubDiv>
 
-                  <ApplyButton onClick={clearFilters}>
+                  <ApplyButton isNightMode={isNightMode} onClick={clearFilters}>
                     Clear Filters
                   </ApplyButton>
                 </FilterOptions>
@@ -477,7 +472,7 @@ const ClosetApp = () => {
               />
               {/* Product Grid */}
               <Spacer />
-              <CustomContainer>
+              <CustomContainer isNightMode={isNightMode} >
                 <ProductGrid viewTotal={filters.viewOutfits}>
                   {filteredProducts.map((product, index) => {
                     return (
@@ -533,20 +528,20 @@ const ClosetApp = () => {
 
             {/* Sidebar */}
             <Col lg={3} md={12}>
-              <Sidebar>
+              <Sidebar isNightMode={isNightMode}>
                 <h3>Selected Items</h3>
                 {selectedProducts.map((product) => (
                   <SidebarItem key={product.id}>
-                    <SidebarImage src={product.url} alt={product.name} />
+                    <SidebarImage isNightMode={isNightMode} src={product.url} alt={product.name} />
 
-                    <RemoveButton onClick={() => toggleSelectProduct(product)}>
+                    <RemoveButton isNightMode={isNightMode} onClick={() => toggleSelectProduct(product)}>
                       ✖
                     </RemoveButton>
                   </SidebarItem>
                 ))}
                 <NotesInput placeholder="Add notes..." />
                 <SendButton onClick={handleSendToMobile}>Send to Mobile App</SendButton>
-                <ApplyButtonSideBar onClick={clearCarts}>
+                <ApplyButtonSideBar isNightMode={isNightMode} onClick={clearCarts}>
                   Clear Cart
                 </ApplyButtonSideBar>
               </Sidebar>
@@ -565,6 +560,7 @@ const ClosetApp = () => {
           showEditImagePopUp={showEditImagePopUp}
           setShowDetailsPopUp={setShowDetailsPopUp}
           showDetailsPopUp={showDetailsPopUp}
+          isNightMode={isNightMode}
         />
       )}
       {openOldSuggestedPopup && (
@@ -630,8 +626,8 @@ const Checkbox = styled.input`
 `;
 
 const ApplyButtonSideBar = styled.button`
-  background-color: #000;
-  color: #fff;
+  background-color: ${({ isNightMode }) => (isNightMode ? "#ffffff" : "#121212")};
+  color: ${({ isNightMode }) => (isNightMode ? "#121212" : "#fff")};
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -643,7 +639,8 @@ const ApplyButtonSideBar = styled.button`
   width: 100%;
 
   &:hover {
-    background-color: #333;
+    background-color: #555;
+    color: #ffffff;
   }
 `;
 const SideBarSub = styled.div``;
@@ -738,6 +735,7 @@ const SidebarName = styled.p`
 
 const RemoveButton = styled.button`
   background-color: transparent;
+  color: ${({ isNightMode }) => (isNightMode ? "#ffffff" : "#121212")};
   border: none;
   cursor: pointer;
   font-size: 24px;
@@ -772,7 +770,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  background-color: #f7f8fc; /* Light background for contrast */
+  background-color: ${({ isNightMode }) => (isNightMode ? "#737373" : "#f7f8fc")}; /* Light background for contrast */
 `;
 
 const CustomContainer = styled.div`
@@ -780,6 +778,7 @@ const CustomContainer = styled.div`
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 20px;
+  background-color: ${({ isNightMode }) => (isNightMode ? "#3C3C40" : "#fff")};
 `;
 
 const FilterContainer = styled.div`
@@ -788,7 +787,7 @@ const FilterContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 15px;
-  background-color: #ffffff;
+  background-color: ${({ isNightMode }) => (isNightMode ? "#3C3C40" : "#fff")};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 `;
 
@@ -799,8 +798,8 @@ const FilterOptions = styled.div`
 `;
 
 const ApplyButton = styled.button`
-  background-color: #333;
-  color: #fff;
+  background-color: ${({ isNightMode }) => (isNightMode ? "#ffffff" : "#333")};
+  color: ${({ isNightMode }) => (isNightMode ? "#121212" : "#fff")};
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
@@ -811,6 +810,7 @@ const ApplyButton = styled.button`
 
   &:hover {
     background-color: #555;
+    color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 `;
@@ -873,7 +873,8 @@ const Sidebar = styled.div`
   overflow-y: auto;
   position: sticky;
   top: 20px;
-  background-color: #ffffff;
+  background-color: ${({ isNightMode }) => (isNightMode ? "#3C3C40" : "#ffffff")};
+  color: ${({ isNightMode }) => (isNightMode ? "#ffffff" : "#3C3C40")};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 `;
 
@@ -934,5 +935,6 @@ const SendButton = styled.button`
 const Spacer = styled.div`
   margin-top: 1.5rem;
 `;
+
 
 export default ClosetApp;
