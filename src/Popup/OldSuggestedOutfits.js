@@ -8,7 +8,8 @@ const OldSuggestedOutfits = ({
   oldSuggestedArray,
   closeModalOldSuggestedOutfits,
   openOldSuggestedPopup,
-  setOldSuggestedArray, // Add this prop if you need to update oldSuggestedArray
+  setOldSuggestedArray, // Add this prop if you need to update oldSuggestedArray,
+  isNightMode
 }) => {
   const [productRatings, setProductRatings] = useState({});
   
@@ -34,11 +35,11 @@ const OldSuggestedOutfits = ({
   return (
     <Popup open={openOldSuggestedPopup} modal nested>
       <Overlay />
-      <ModalContainer>
+      <ModalContainer isNightMode={isNightMode}>
         <CloseButton onClick={closeModalOldSuggestedOutfits}>
           &times;
         </CloseButton>
-        <ModalHeader>Old Suggested Outfits</ModalHeader>
+        <ModalHeader isNightMode={isNightMode}>Old Suggested Outfits</ModalHeader>
         <OrdersContainer>
           {Object.keys(groupedProducts).map((selectedTime) => (
             <OrderCard key={selectedTime}>
@@ -86,7 +87,7 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: white;
+  background-color: ${({ isNightMode }) => (isNightMode ? "#3C3C40" : "#fff")};
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -105,7 +106,7 @@ const ModalHeader = styled.div`
   font-weight: bold;
   text-align: center;
   margin-bottom: 1rem;
-  color: #333;
+  color: ${({ isNightMode }) => (isNightMode ? "#fff" : "#333")};
 `;
 
 const OrdersContainer = styled.div`

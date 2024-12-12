@@ -117,7 +117,7 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: ${({ isNightMode }) => (isNightMode ? "#121212" : "#fff")};
+  background-color: ${({ isNightMode }) => (isNightMode ? "#3C3C40" : "#fff")};
   border-radius: 10px;
   padding: 4.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);

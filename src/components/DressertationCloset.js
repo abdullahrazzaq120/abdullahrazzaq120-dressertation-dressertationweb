@@ -9,10 +9,23 @@ const DressertationCloset = () => {
   const [closetData, setClosetData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [isNightMode, setIsNightMode] = useState(false);
+  const [isNightMode, setIsNightMode] = useState(() => {
+    const storageStatus = localStorage.getItem('nightMode') === 'true';
+
+    if (storageStatus) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+
+    return storageStatus;
+  });
 
   const toggleNightMode = () => {
-    setIsNightMode(!isNightMode);
+    const newMode = !isNightMode;
+    setIsNightMode(newMode);
+    localStorage.setItem('nightMode', newMode);
+
     if (!isNightMode) {
       document.body.classList.add("dark-mode");
     } else {

@@ -570,6 +570,7 @@ const ClosetApp = ({ isNightMode }) => {
           oldSuggestedArray={finalizedSuggestedArray}
           closeModalOldSuggestedOutfits={closeModalOldSuggestedOutfits}
           setOldSuggestedArray={setOldSuggestedArray}
+          isNightMode={isNightMode}
         />
       )}
     </>
